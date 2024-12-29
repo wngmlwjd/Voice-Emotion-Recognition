@@ -1,23 +1,8 @@
 # Voice-Emotion-Recognition
 
-### HuBERT + Transformer
+## 모델 구조
+![모델 구조도_2024 12 23](https://github.com/user-attachments/assets/f127aeb7-85ce-4545-a8da-e700683b6396)
 
-## 오픈 소스
-## HuBERT
-#### 음성 특징 추출
-
-### 트라우마 초기 진단을 위한 음성 기반 감정 분류
-https://github.com/HanNayeoniee/Trauma-Detector?tab=readme-ov-file
-
-## 논문
-### 음성과 텍스트를 이용한 멀티모달 감정 인식
-https://www.riss.kr/search/detail/DetailView.do?p_mat_type=be54d9b8bc7cdb09&control_no=d7b23ba1cf22b958ffe0bdc3ef48d419&outLink=K
-
-## 딥러닝 모델 아키텍처 Tool
-### NETRON
-#### 코드 넣으면 아키텍처 그려줌
-https://github.com/lutzroeder/netron?tab=readme-ov-file
-
-### NN-SVG
-#### 신경망 구체적으로 시각화
-http://alexlenail.me/NN-SVG/index.html
+## 사용 데이터셋
+### AI Hub
+- [감성 및 발화 스타일별 음성합성 데이터](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=data&dataSetSn=466)

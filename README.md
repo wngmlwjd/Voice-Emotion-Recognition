@@ -1,7 +1,7 @@
 # Voice-Emotion-Recognition
 
 ## 모델 구조
-![모델 구조도_2024 12 23](https://github.com/user-attachments/assets/f127aeb7-85ce-4545-a8da-e700683b6396)
+![모델 구조도_2025.02.03](https://github.com/user-attachments/assets/fb2e6f4c-cbea-44b4-b9ad-77c77e9f4c4e)
 
 ## 사용 데이터셋
 ### AI Hub

@@ -1,6 +1,7 @@
 import requests
 
 TMDB_API_KEY = "df9a0caaf2a07ee6babd7024a6accaf8"
+
 EMOTION_TO_GENRE = {
     '기쁨': 35,  # Comedy
     '슬픔': 18,  # Drama

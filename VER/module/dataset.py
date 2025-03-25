@@ -6,15 +6,15 @@ from sklearn.preprocessing import LabelEncoder
 from torch.nn.utils.rnn import pad_sequence
 
 class EmotionDataset(Dataset):
-    def __init__(self, audio_files, labels, feature_extractor, label_encoder_path=None):
+    def __init__(self, audio_files, feature_extractor, label_encoder_path=None, labels=None):
         self.audio_files = audio_files
-        self.labels = labels
         self.feature_extractor = feature_extractor
 
         if label_encoder_path and os.path.exists(label_encoder_path):
             with open(label_encoder_path, 'rb') as f:
                 self.label_encoder = pickle.load(f)
         else:
+            self.labels = labels
             self.label_encoder = LabelEncoder()
             self.label_encoder.fit(labels)
             if label_encoder_path:

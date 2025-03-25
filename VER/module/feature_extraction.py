@@ -5,6 +5,7 @@ import soundfile
 
 class HuBERTFeatureExtractor:
     def __init__(self, model_name="facebook/hubert-base-ls960"):
+    # def __init__(self, model_name="team-lucid/hubert-xlarge-korean"):
         self.processor = Wav2Vec2FeatureExtractor.from_pretrained(model_name, force_download=True)
         self.model = HubertModel.from_pretrained(model_name, force_download=True)
         self.model.eval()

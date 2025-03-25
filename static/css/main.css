@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+}
+body * {
+    color: white;
+    background-color: black;
+}
+
+input[type="button"] {
+    padding: 7px;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+#bodyWrapper {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    row-gap: 50px;
+
+    margin: 30px auto;
+    padding: 20px;
+    width: 900px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+#audioWrapper {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    row-gap: 20px;
+}
+#recordWrapper {
+    display: grid;
+    grid-template-columns: auto min-content;
+}
+#recordWrapper #audioPlayback {
+    justify-self: end;
+}
+#recordButtonWrapper {
+    display: grid;
+    grid-template-columns: min-content auto;
+    column-gap: 15px;
+    align-items: center;
+}
+#recordButtonWrapper #timerDisplay {
+    font-size: 18px;
+}
+
+#audioPlayerWrapper {
+    display: grid;
+    grid-template-columns: auto min-content;
+    align-items: center;
+}
+#audioPlayerWrapper #audioPlayback {
+    justify-self: end;
+}
+
+#uploadWrapper {
+    display: grid;
+    grid-template-columns: min-content auto;
+    column-gap: 15px;
+    align-items: center;
+}
+#uploadWrapper label {
+    padding: 7px;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 20px;
+    white-space: nowrap;
+}
+#uploadWrapper #uploadButton {
+    display: none;
+}
+
+#analysisButton {
+    width: 100%;
+}
+
+#resultWrapper {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    row-gap: 10px;
+}

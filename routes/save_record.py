@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
 import os
 
+UPLOAD_FOLDER = './dataset/record files'
+
 audio_bp = Blueprint('audio', __name__)
-UPLOAD_FOLDER = '../dataset/record files'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @audio_bp.route('/save_record', methods=['POST'])

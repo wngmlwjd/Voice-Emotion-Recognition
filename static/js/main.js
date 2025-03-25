@@ -105,6 +105,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     analysisButton.addEventListener('click', async function () {
         const audioSrc = audioElement.src;
+        const resultDisplay = document.getElementById('resultDisplay');
 
         if(!audioSrc) {
             alert('오디오 파일을 녹음하거나 업로드하세요.');
@@ -120,8 +121,10 @@ window.addEventListener('DOMContentLoaded', function () {
                 const audioBlob = await response.blob();
                 const file = uploadButton.files?.[0];
 
+                // predict
+
                 // FormData로 서버에 전송
-                const formData = new FormData();
+                let formData = new FormData();
                 if (file) {
                     // 업로드된 파일이 있는 경우
                     formData.append('audio', audioBlob, file.name);
@@ -130,16 +133,42 @@ window.addEventListener('DOMContentLoaded', function () {
                     formData.append('audio', audioBlob, fileName); // 이때 fileName은 전역변수
                 }
 
-                const result = await fetch('/predict', {
+                let result = await fetch('/predict', {
                     method: 'POST',
                     body: formData
                 });
 
-                const data = await result.json();
+                let data = await result.json();
+                console.log('분석 결과:', data);
+
+                const prediction = data.predictions;
+
+                // recommend
+                formData = new FormData();
+                formData.append('emotion', prediction);
+
+                result = await fetch('/recommend', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const movieData = await result.json();
+                console.log('추천 결과:', movieData);
                 
                 // 결과 출력
-                resultDisplay.textContent = `분석 결과: ${data.emotion || data.result}`;
-                // contentDisplay.textContent = data.recommendation || '[추천 컨텐츠 없음]';
+                resultDisplay.textContent = `분석 결과: ${prediction}`;
+                document.querySelector("#content").insertAdjacentHTML("beforeend",
+                    `<br>
+                    --------------------------------- <br><br>`);
+                for(let i = 0;i < 10;i++) {
+                    document.querySelector("#content").insertAdjacentHTML("beforeend",
+                        `#${i + 1} <br>
+                        영화 제목: ${movieData.results[i].title} <br>
+                        개요: ${movieData.results[i].overview || "없음"} <br>
+                        개봉일: ${movieData.results[i].release_date} <br>
+                        평점: ${movieData.results[i].vote_average} <br><br>
+                        --------------------------------- <br><br>`);
+                }
 
             } catch (err) {
                 console.error('오디오 분석 요청 실패:', err);

@@ -3,11 +3,13 @@ import os
 import tempfile
 import sys
 import torch
+from torch.utils.data import DataLoader
 
-from VER.module.test import test_model
-from VER.module.recommendation import get_recommendations
-from VER.module.load_model import load_model
 from VER.module.feature_extraction import HuBERTFeatureExtractor
+from VER.module.dataset import EmotionDataset, collate_fn
+from VER.module.config import TEST_DATASET_DIR, DATE, LABEL_ENCODER_PATH, TEST_MODEL_PATH
+from VER.module.test import test_model
+from VER.module.model import EmotionTransformer
 
 predict_bp = Blueprint('predict', __name__)
 
@@ -17,36 +19,21 @@ def predict():
 
     if audio_files:
         try:
-            # temp 파일로 저장
-            temp_dir = tempfile.mkdtemp()
-            temp_path = os.path.join(temp_dir, audio_files.filename)
-            audio_files.save(temp_path)
-
-            # 모델 및 특성 추출기 로드
-            model_path = "./VER/trained_model/latest/model.pth"
-            label_encoder_path = "./VER/trained_model/label_encoder.pkl"
             feature_extractor = HuBERTFeatureExtractor()
-
-            # 모델 로딩
-            model = load_model(model_path, device="mps")
-
-            # 예측 실행 (test_audio_files는 경로 리스트로 전달)
-            predicted_labels, accuracy = test_model(
-                test_audio_files=[temp_path],
-                feature_extractor=feature_extractor,
-                model=model,
-                label_encoder_path=label_encoder_path,
-                device="mps"
-            )
+            dataset = EmotionDataset([audio_files], ["중립"], feature_extractor, LABEL_ENCODER_PATH)
+            test_dataloader = DataLoader(dataset, batch_size=32, shuffle=False, collate_fn=collate_fn)
             
-            # finally:
-            #     if os.path.exists(temp_path):
-            #         os.remove(temp_path)
+            device = torch.device("mps")
+            model = torch.load(TEST_MODEL_PATH, weights_only=False)
+            model = model.to(device)
+    
+            predictions, _ = test_model(test_dataloader, model, dataset)
+    
+            predicted_labels = dataset.label_encoder.inverse_transform(predictions).tolist()
 
             # 결과 반환
             return jsonify({
                 "predictions": predicted_labels,
-                "accuracy": accuracy
             })
 
         except Exception as e:

@@ -88,3 +88,14 @@ input[type="button"] {
     grid-template-rows: repeat(2, auto);
     row-gap: 10px;
 }
+
+#resultDisplay {
+    font-size: 18px;
+}
+.contents {
+    margin: 15px 0;
+    font-size: 18px;
+    display: grid;
+    grid-template-columns: min-content auto;
+    column-gap: 15px;
+}

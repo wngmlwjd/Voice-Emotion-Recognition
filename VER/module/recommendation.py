@@ -39,11 +39,14 @@ def get_recommendations(emotion, result_num=10, api_key=TMDB_API_KEY):
 
     recommendations = []
     for movie in results[:result_num]:  # 상위 N개만 추출
+        # print(movie.get("video"))
+        
         recommendations.append({
             "title": movie.get("title"),
             "overview": movie.get("overview"),
             "vote_average": movie.get("vote_average"),
             "release_date": movie.get("release_date"),
+            "poster_path": movie.get("poster_path"),
         })
 
     return recommendations

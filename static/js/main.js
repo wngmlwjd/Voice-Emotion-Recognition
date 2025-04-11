@@ -106,6 +106,7 @@ window.addEventListener('DOMContentLoaded', function () {
     analysisButton.addEventListener('click', async function () {
         const audioSrc = audioElement.src;
         const resultDisplay = document.getElementById('resultDisplay');
+        const contentDisplay = document.getElementById('contentDisplay');
 
         if(!audioSrc) {
             alert('오디오 파일을 녹음하거나 업로드하세요.');
@@ -157,17 +158,26 @@ window.addEventListener('DOMContentLoaded', function () {
                 
                 // 결과 출력
                 resultDisplay.textContent = `분석 결과: ${prediction}`;
-                document.querySelector("#content").insertAdjacentHTML("beforeend",
-                    `<br>
-                    --------------------------------- <br><br>`);
+                contentDisplay.innerHTML = `[추천 컨텐츠] <br><br>
+                    --------------------------------- <br>`;
                 for(let i = 0;i < 10;i++) {
-                    document.querySelector("#content").insertAdjacentHTML("beforeend",
-                        `#${i + 1} <br>
-                        영화 제목: ${movieData.results[i].title} <br>
-                        개요: ${movieData.results[i].overview || "없음"} <br>
-                        개봉일: ${movieData.results[i].release_date} <br>
-                        평점: ${movieData.results[i].vote_average} <br><br>
-                        --------------------------------- <br><br>`);
+                    let poster_url = 'https://image.tmdb.org/t/p/w200/' + movieData.results[i].poster_path + ".jpg";
+
+                    contentDisplay.insertAdjacentHTML("beforeend", `
+                        <span id="content${i + 1}" class="contents">
+                            <img src="${poster_url}" id="poster${i + 1}" class="posters">
+                            <p id="description${i + 1}" class="descriptions">
+                                #${i + 1} <br><br>
+                                영화 제목: ${movieData.results[i].title} <br>
+                                개봉일: ${movieData.results[i].release_date} |
+                                평점: ${movieData.results[i].vote_average} <br><br>
+                                개요: ${movieData.results[i].overview || "없음"} <br>
+                            </p>
+                        </span>
+                        <p>
+                            --------------------------------- <br>
+                        </p>
+                    `);
                 }
 
             } catch (err) {
